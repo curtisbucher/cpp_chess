@@ -28,7 +28,7 @@ source_group("Source src"     FILES ${SOURCE})
 #target_link_libraries(${PROJECT_NAME} ${SOME_LIB})
 
 ### FOR BUILDING TESTS (use with --target test) ###
-set(TEST_NAME ${PROJECT_NAME}_test)
+set(TEST_NAME test_${PROJECT_NAME})
 
 # Include Google Test
 include(FetchContent)

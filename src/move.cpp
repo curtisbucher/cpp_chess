@@ -14,19 +14,19 @@ Move::~Move(){
 
 // Get the `from` bitboard
 uint64_t Move::get_from_bb(){
-    return this->from;
+    return 1ULL << this->from;
 }
 
 // Get the `to` bitboard
 uint64_t Move::get_to_bb(){
-    return this->to;
+    return 1ULL << this->to;
 }
 
 /* Populate the `from` and `to` bitboards from chess notation.
 Input: user_input - a string representing the move in chess notation.
 Output: 1 on success, 0 on failure.
 */
-int Move::parse_move(string user_input){
+int Move::from_cn(string user_input){
     // FIXME: currently only supports a subset of chess notation (e.g. "e2e4" or "E2E4")
     this->user_input = user_input;
     this->from = 0;
@@ -58,13 +58,28 @@ int Move::parse_move(string user_input){
         return 0;
     }
 
-    uint8_t from_file = user_input[0] - 'a';
+    uint8_t from_file = user_input[0] <= 'H' ? user_input[0] - 'A' : user_input[0] - 'a';
     uint8_t from_rank = user_input[1] - '1';
-    uint8_t to_file = user_input[2] - 'a';
+    uint8_t to_file = user_input[2] <= 'H' ? user_input[2] - 'A' : user_input[2] - 'a';
     uint8_t to_rank = user_input[3] - '1';
 
-    this->from = 1ULL << (from_rank * 8 + from_file);
-    this->to = 1ULL << (to_rank * 8 + to_file);
+    this->from = from_rank * 8 + from_file;
+    this->to = to_rank * 8 + to_file;
 
     return 1;
+}
+
+string Move::to_cn(){
+    string result = "";
+    uint64_t from_file = this->from % 8ULL;
+    uint64_t from_rank = this->from / 8ULL;
+    uint64_t to_file = this->to % 8ULL;
+    uint64_t to_rank = this->to / 8ULL;
+
+    result += (char)from_file + 'A';
+    result += (char)from_rank + '1';
+    result += (char)to_file + 'A';
+    result += (char)to_rank + '1';
+
+    return result;
 }
