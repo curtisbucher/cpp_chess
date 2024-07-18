@@ -43,12 +43,17 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 # Define test files
-set(TEST_FILES
-    tests/test_move.cpp
-)
+file(GLOB_RECURSE TEST "test/*.cpp")
+
+# remove main from source files
+list(REMOVE_ITEM SOURCE ${CMAKE_SOURCE_DIR}/src/chess.cpp)
 
 # Create an executable for the tests
-add_executable(${TEST_NAME} ${SRC_FILES} ${TEST_FILES})
+add_executable(${TEST_NAME}
+    ${SOURCE}
+    ${HEADER}
+    ${TEST}
+)
 
 # Link GoogleTest to the test executable
 target_link_libraries(${TEST_NAME} gtest_main)

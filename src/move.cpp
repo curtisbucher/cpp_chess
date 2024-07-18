@@ -58,13 +58,13 @@ int Move::parse_move(string user_input){
         return 0;
     }
 
-    // convert the `from` square to a bitboard
-    this->from = 1ULL << (8 * (8 - (int)user_input[1] + '0') +
-        (int)user_input[0] - 'a');
+    uint8_t from_file = user_input[0] - 'a';
+    uint8_t from_rank = user_input[1] - '1';
+    uint8_t to_file = user_input[2] - 'a';
+    uint8_t to_rank = user_input[3] - '1';
 
-    // convert the `to` square to a bitboard
-    this->to = 1ULL << (8 * (8 - (int)user_input[3] + '0') +
-        (int)user_input[2] - 'a');
+    this->from = 1ULL << (from_rank * 8 + from_file);
+    this->to = 1ULL << (to_rank * 8 + to_file);
 
     return 1;
 }
