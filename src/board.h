@@ -1,45 +1,8 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include <iostream>
 #include "move.h"
-
-// define starting poositions
-// initialize bitboards
-#define W_PAWNS_DEFAULT (0x000000000000FF00)
-#define W_ROOKS_DEFAULT (0x0000000000000081)
-#define W_KNIGHTS_DEFAULT (0x0000000000000042)
-#define W_BISHOPS_DEFAULT (0x0000000000000024)
-#define W_QUEENS_DEFAULT  (0x0000000000000008)
-#define W_KINGS_DEFAULT (0x0000000000000010)
-
-#define B_PAWNS_DEFAULT (0x00FF000000000000)
-#define B_ROOKS_DEFAULT (0x8100000000000000)
-#define B_KNIGHTS_DEFAULT (0x4200000000000000)
-#define B_BISHOPS_DEFAULT (0x2400000000000000)
-#define B_QUEENS_DEFAULT (0x0800000000000000)
-#define B_KINGS_DEFAULT (0x1000000000000000)
-
-// define rank, files and squares
-#define RANK_1 (0x0101010101010101)
-#define RANK_2 (0x0202020202020202)
-#define RANK_3 (0x0404040404040404)
-#define RANK_4 (0x0808080808080808)
-#define RANK_5 (0x1010101010101010)
-#define RANK_6 (0x2020202020202020)
-#define RANK_7 (0x4040404040404040)
-#define RANK_8 (0x8080808080808080)
-
-#define FILE_A (0x00000000000000FF)
-#define FILE_B (0x000000000000FF00)
-#define FILE_C (0x0000000000FF0000)
-#define FILE_D (0x00000000FF000000)
-#define FILE_E (0x000000FF00000000)
-#define FILE_F (0x0000FF0000000000)
-#define FILE_G (0x00FF000000000000)
-#define FILE_H (0xFF00000000000000)
-
-#define IDX_TO_BB(x) (1ULL << (x))
+#include "bitboard.h"
 
 enum EnumSquare {
   A1, B1, C1, D1, E1, F1, G1, H1,
@@ -56,24 +19,36 @@ class Board
 {
   public:
     // bitboards for representation
-    uint64_t white_pawns_bb;
-    uint64_t white_rooks_bb;
-    uint64_t white_knights_bb;
-    uint64_t white_bishops_bb;
-    uint64_t white_queens_bb;
-    uint64_t white_kings_bb;
+    bitboard white_pawns_bb;
+    bitboard white_rooks_bb;
+    bitboard white_knights_bb;
+    bitboard white_bishops_bb;
+    bitboard white_queens_bb;
+    bitboard white_kings_bb;
 
-    uint64_t black_pawns_bb;
-    uint64_t black_rooks_bb;
-    uint64_t black_knights_bb;
-    uint64_t black_bishops_bb;
-    uint64_t black_queens_bb;
-    uint64_t black_kings_bb;
+    bitboard black_pawns_bb;
+    bitboard black_rooks_bb;
+    bitboard black_knights_bb;
+    bitboard black_bishops_bb;
+    bitboard black_queens_bb;
+    bitboard black_kings_bb;
 
     Board();
     ~Board();
     void print_board();
     void execute_move(Move move);
+    bool is_legal(Move move);
+
+  protected:
+    bitboard get_white_spaces();
+    bitboard get_black_spaces();
+    bitboard get_empty_spaces();
+    bool is_legal_pawn(Move move);
+    bool is_legal_rook(Move move);
+    bool is_legal_knight(Move move);
+    bool is_legal_bishop(Move move);
+    bool is_legal_queen(Move move);
+    bool is_legal_king(Move move);
 };
 
 #endif

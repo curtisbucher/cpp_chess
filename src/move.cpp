@@ -1,7 +1,10 @@
 #include "move.h"
+#include "bitboard.h"
 
-// Constructor
-Move::Move(){
+/* Constructor
+input: white - The color of the player making the move*/
+Move::Move(bool white){
+    this->white = white;
     this->user_input = "";
     this->from = 0;
     this->to = 0;
@@ -13,13 +16,20 @@ Move::~Move(){
 }
 
 // Get the `from` bitboard
-uint64_t Move::get_from_bb(){
+bitboard Move::get_from_bb(){
     return 1ULL << this->from;
+}
+uint8_t Move::get_from_idx(){
+    return this->from;
 }
 
 // Get the `to` bitboard
-uint64_t Move::get_to_bb(){
+bitboard Move::get_to_bb(){
     return 1ULL << this->to;
+}
+
+uint8_t Move::get_to_idx(){
+    return this->to;
 }
 
 /* Populate the `from` and `to` bitboards from chess notation.
@@ -71,10 +81,10 @@ int Move::from_cn(string user_input){
 
 string Move::to_cn(){
     string result = "";
-    uint64_t from_file = this->from % 8ULL;
-    uint64_t from_rank = this->from / 8ULL;
-    uint64_t to_file = this->to % 8ULL;
-    uint64_t to_rank = this->to / 8ULL;
+    char from_file = this->from % 8ULL;
+    char from_rank = this->from / 8ULL;
+    char to_file = this->to % 8ULL;
+    char to_rank = this->to / 8ULL;
 
     result += (char)from_file + 'A';
     result += (char)from_rank + '1';
@@ -82,4 +92,9 @@ string Move::to_cn(){
     result += (char)to_rank + '1';
 
     return result;
+}
+
+// return whether the move is made by white
+bool Move::is_white(){
+    return this->white;
 }

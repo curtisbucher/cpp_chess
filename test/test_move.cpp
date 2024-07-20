@@ -3,7 +3,7 @@
 
 // Testing from_cn()
 TEST(MoveTest_from_cn, TestParsingUserInput) {
-    Move move;
+    Move move(true);
     ASSERT_TRUE(move.from_cn("e2e4"));
 
     EXPECT_EQ(move.get_from_bb(), 0x0000000000001000);
@@ -11,7 +11,7 @@ TEST(MoveTest_from_cn, TestParsingUserInput) {
 }
 
 TEST(MoveTest_from_cn, TestParsingUserInput2) {
-    Move move;
+    Move move(true);
     ASSERT_TRUE(move.from_cn("g7f8"));
 
     EXPECT_EQ(move.get_from_bb(), 1ULL << 54);
@@ -19,7 +19,7 @@ TEST(MoveTest_from_cn, TestParsingUserInput2) {
 }
 
 TEST(MoveTest_from_cn, TestParsingCaseInsensitive) {
-    Move move1, move2;
+    Move move1(true), move2(true);
     ASSERT_TRUE(move1.from_cn("E2E4"));
     ASSERT_TRUE(move2.from_cn("e2e4"));
 
@@ -28,7 +28,7 @@ TEST(MoveTest_from_cn, TestParsingCaseInsensitive) {
 }
 
 TEST(MoveTest_from_cn, TestParsingInvalidInput) {
-    Move move;
+    Move move(true);
     ASSERT_FALSE(move.from_cn("e2e"));
     ASSERT_FALSE(move.from_cn("e2e44"));
     ASSERT_FALSE(move.from_cn("e2e44"));
@@ -42,13 +42,13 @@ TEST(MoveTest_from_cn, TestParsingInvalidInput) {
 
 // Testing to_cn()
 TEST(MoveTest_to_cn, TestConvertingToChessNotation) {
-    Move move;
+    Move move(true);
     move.from_cn("e2e4");
     EXPECT_EQ(move.to_cn(), "E2E4");
 }
 
 TEST(MoveTest_to_cn, TestConvertingToChessNotation2) {
-    Move move;
+    Move move(true);
     move.from_cn("G7F8");
     EXPECT_EQ(move.to_cn(), "G7F8");
 }
